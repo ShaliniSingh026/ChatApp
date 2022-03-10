@@ -8,8 +8,6 @@ const { username, room } = Qs.parse(location.search, {
     ignoreQueryPrefix: true
 });
 
-// console.log(username, room);
-
 const socket = io();
 
 //For joining chat room
@@ -21,32 +19,39 @@ socket.on('roomUsers', ({ room, users }) => {
  outputUsers(users);
 });
 
+//Adding room name to DOM
+function outputRoomName(room) {
+    roomName.innerText = room;
+ }
+
+
+ //adding user name to DOM
+ function outputUsers(user) {
+    userList.innerHTML = 
+    `${user.map(user => `<li>${user.username}</li>`).join('')}
+    `;
+}
+
 //Message from server
 socket.on('message', message => {
-     console.log(message.username);
+    //  console.log(message.username);
     outputMessage(message);
+});
+
+socket.on('locationmessage', message => {
+    // console.log(message.username);
+    const div = document.createElement('div');
+    div.classList.add('message');
+    div.innerHTML = `<p class="meta">${message.username} <span>${message.time}</span></p>
+    <a class="text" href="${message.url}" target="_blank">
+      ${message.url}
+    </a>`;
+    document.querySelector('.chat-messages').appendChild(div);
+});
 
     /*//To msg scroll down
    chatMessages.scrollTop = chatMessages.scrollHeight;
 });*/
-
-
-
-/*//location
-document.querySelector('#mylocation').addEventListener('click', () => {
-    if (!navigator.geolocation) {
-        return alert('Geolocation is not supported by your browser')
-    }
-    navigator.geolocation.getCurrentPosition((position) => {
-        socket.emit('sendLocation', {
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude
-        }, function () {
-            alert('Unable to fetch location!!')
-        })
-    })
-})*/
-
 
 //For Message submit
 chatForm.addEventListener('submit', (e) => {
@@ -63,7 +68,40 @@ chatForm.addEventListener('submit', (e) => {
     e.target.elements.msg.focus()
 });
 
-var locationButton = jQuery('#mylocation');
+
+
+//Output msg to DOM
+function outputMessage(message) {
+    // console.log(message)
+    const div = document.createElement('div');
+    div.classList.add('message');
+    div.innerHTML = `<p class="meta">${message.username} <span>${message.time}</span></p>
+    <p class="text">
+      ${message.text}
+    </p>`;
+    document.querySelector('.chat-messages').appendChild(div);
+};
+
+
+
+//location sharing
+document.querySelector('#mylocation').addEventListener('click', function (e) {
+    e.preventDefault();
+    if (!navigator.geolocation) {
+        return alert('Gelocation not supported by your browser!');
+    }
+    navigator.geolocation.getCurrentPosition(function (position) {
+        socket.emit('location', {
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude
+        })
+        // console.log(position);
+    }, function () {
+        alert('Unable to fetch location!');
+    })
+});
+
+/*var locationButton = jQuery('#mylocation');
 locationButton.on('click', function () {
     if(!navigator.geolocation) {
         return alert('Gelocation not supported by your browser!');
@@ -73,34 +111,4 @@ locationButton.on('click', function () {
     }, function() {
         alert('unable to fetch location!');
     });
-});
-
-/*// To broadcast the location
-socket.io('mylocation', message => {
-    const div = document.createElement('div');
-    div.classList.add('message');
-    div.innerHTML = ``
 });*/
-
-//Output msg to DOM
-function outputMessage(message) {
-    console.log(message)
-    const div = document.createElement('div');
-    div.classList.add('message');
-    div.innerHTML = `<p class="meta">${message.username} <span>${message.time}</span></p>
-    <p class="text">
-      ${message.text}
-    </p>`;
-    document.querySelector('.chat-messages').appendChild(div);
-}
-//Adding room name to DOM
-function outputRoomName(room) {
-   roomName.innerText = room;
-}
-//Adding users to DOM
-function outputUsers(user) {
-    userList.innerHTML = 
-    `${user.map(user => `<li>${user.username}</li>`).join('')}
-    `;
-}
-});

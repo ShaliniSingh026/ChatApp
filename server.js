@@ -2,7 +2,7 @@ const path = require('path');
 const http = require('http');
 const express = require('express')
 const socketio = require('socket.io');
-const formatMessage = require('./utils/messages');
+const { formatMessage, generateLocationMessage} = require('./utils/messages');
 const { userJoin, getCurrentUser, userLeave, getRoomUsers } = require('./utils/users');
 const app = express()
 const jQuery = require('jQuery');
@@ -42,10 +42,14 @@ io.to(user.room).emit('roomUsers', {
      const user = getCurrentUser(socket.id);
      io.to(user.room).emit('message', formatMessage(user.username, msg));
    });
-   socket.on('sendLocation', (coords) => {
-    io.emit('locationmessage',
-        generateLocationMessage(`${user.username}`, `${coords.latitude}`, `${coords.longitude}`))
-})
+
+//location
+socket.on('location', (coords) => {
+  // console.log(coords.latitude);
+  const user = getCurrentUser(socket.id);
+  io.to(user.room).emit('locationmessage', generateLocationMessage(user.username, coords.latitude, coords.longitude))
+});
+
    //After disconnecting the client
    socket.on('disconnect', () => {
      const user = userLeave(socket.id);
@@ -55,8 +59,8 @@ io.to(user.room).emit('roomUsers', {
 io.to(user.room).emit('roomUsers', {
   room: user.room,
   users: getRoomUsers(user.room)
-});
-}
+      });
+    }
  });
 });
 
