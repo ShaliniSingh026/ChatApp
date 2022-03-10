@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join Page</title>
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css"
+    integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk="
+    crossorigin="anonymous"> 
+    <style>
+body {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    background-color: #d473d4;
+}
+.box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    padding: 40px;
+    background: rgba(0, 0, 0, .8);
+    box-sizing: border-box;
+    box-shadow: 0 15px 25px rgba(0, 0, 0, .5);
+    border-radius: 10px;
+    
+}
+.box h2 {
+    margin: 0 0 30px;
+    padding: 0;
+    color: #fff;
+    text-align: center;
+
+   /* border-bottom: 4px solid rgb(250, 35, 221);*/
+}
+.box .inputBox {
+    position: relative;
+}
+.box .inputBox input {
+    width: 100%;
+    padding: 10px 0;
+    font-size: 16px;
+    color: #fff;
+    margin-bottom: 30px;
+    border: none;
+    outline: none;
+    letter-spacing: 1px;
+    background: transparent;
+    border-bottom: 1px solid #fff;
+}
+.box .inputBox label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 10px 0;
+    font-size: 16px;
+    color:#fff;
+    pointer-events: none;
+    letter-spacing: 1px;
+    transition: .5s;
+}
+.box .inputBox input:focus ~ label,
+.box .inputBox input:valid ~ label {
+    top: -18px;
+    left: 0;
+    color: #03a9f4;
+    font-size: 12px;
+}
+.box button[type= "submit"] {
+    background: transparent;
+    border: none;
+    width: 90%;
+    height: 40px;
+    outline: none;
+    color: #fff;
+    background: purple;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 18px;
+    font-weight: bold;
+}
+.box button[type=submit]:hover {
+    
+  background: rgb(173, 5, 173);
+}
+
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h2><i class='far fa-comments' style='font-size:38px;color:red'></i> Do you wanna chat !!</h2>
+        <form action="chat.html">
+            <div class="inputBox">
+                
+                <input type="text" name="username" id="username" required >
+                <label>Username</label>    
+            </div>
+            <div class="inputBox">
+                
+                <input type="text" name="room" id="room" required>
+                <label>Room</label>
+            </div>
+            <center>
+            <button type="submit" name="join" >Join Us</button>
+            </center>
+        </form>
+    </div>
+    
+</body>
+</html>
