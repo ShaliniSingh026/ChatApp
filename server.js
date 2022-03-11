@@ -5,15 +5,15 @@ const socketio = require('socket.io');
 const { formatMessage, generateLocationMessage} = require('./utils/messages');
 const { userJoin, getCurrentUser, userLeave, getRoomUsers } = require('./utils/users');
 const app = express()
-const jQuery = require('jQuery');
+//const jQuery = require('jQuery');
 const server = http.createServer(app);
 const io = socketio(server);
 
-const publicPath = path.join(__dirname, 'public');
-const port = 3000 || process.env.port;
+//const publicPath = path.join(__dirname, 'public');
+//const port = 3000 || process.env.port;
 //set static folder
-app.use(express.static(publicPath));
-//app.use(express.static(path.join(__dirname, 'public')));
+//app.use(express.static(publicPath));
+app.use(express.static(path.join(__dirname, 'public')));
 
 const botName = 'Admin';
 
@@ -62,6 +62,6 @@ io.to(user.room).emit('roomUsers', {
       });
     }
  });
-});
+})
 
-server.listen(port, (res) => { console.log(`Running at Port ${port}`) });
+server.listen(3000, (res) => { console.log(`Running at Port 3000`) });

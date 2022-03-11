@@ -37,7 +37,7 @@ socket.on('message', message => {
     //  console.log(message.username);
     outputMessage(message);
 });
-
+//for fetching users location
 socket.on('locationmessage', message => {
     // console.log(message.username);
     const div = document.createElement('div');
@@ -58,10 +58,13 @@ chatForm.addEventListener('submit', (e) => {
     e.preventDefault();
 
     //For getting msg text
-    const msg = e.target.elements.msg.value;
-
+    let msg = e.target.elements.msg.value;
+    msg = msg.trim();
+    if(!msg) {
+        return false;
+    }
     //emitting message to server
-    socket.emit('chatMessage',msg);
+    socket.emit('chatMessage', msg);
 
     //For clearing msgs
     e.target.elements.msg.value = '';
@@ -82,7 +85,14 @@ function outputMessage(message) {
     document.querySelector('.chat-messages').appendChild(div);
 };
 
-
+//Alert msg for user before leave chat room
+document.getElementById('leave-btn').addEventListener('click', () => {
+    const leaveRoom = confirm('Are you sure you want to leave the chatroom?');
+    if (leaveRoom) {
+      window.location = '../join.html';
+    } else {
+    }
+  });
 
 //location sharing
 document.querySelector('#mylocation').addEventListener('click', function (e) {
