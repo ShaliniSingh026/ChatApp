@@ -9,7 +9,7 @@ const app = express()
 const server = http.createServer(app);
 const io = socketio(server);
 //const publicPath = path.join(__dirname, 'public');
-const port = 3000 || process.env.port;
+const PORT = 3000 || process.env.port;
 //set static folder
 //app.use(express.static(publicPath));
 app.use(express.static(path.join(__dirname, 'public')));
@@ -64,4 +64,4 @@ io.to(user.room).emit('roomUsers', {
  });
 })
 
-server.listen(port, (res) => { console.log(`Running at Port ${port}`) });
+server.listen(PORT, (res) => { console.log(`Running at Port ${PORT}`) });
